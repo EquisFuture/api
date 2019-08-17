@@ -7,10 +7,6 @@ class VentasSchema extends Schema {
   up () {
     this.create('ventas', (table) => {
       table.increments()
-      table.integer('vendedor').references('id').inTable('users')
-      table.string('concepto').notNullable()
-      table.integer('cantidad').notNullable()
-      table.integer('costo_total').notNullable()
       table.timestamps()
     })
   }
