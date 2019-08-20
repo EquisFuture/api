@@ -20,5 +20,11 @@ Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
 
+// login
+Route.post('login', 'UsuarioController.login')
+Route.post('registrar-usuario', 'UsuarioController.registrarUsuario')
+
 // Inventario
 Route.post('registrar-concepto', 'InventarioController.registrarConcepto')
+Route.get('obtener-inventario', 'InventarioController.obtenerInventario')
+Route.get('buscar-inventario', 'InventarioController.buscar')
