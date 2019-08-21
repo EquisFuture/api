@@ -21,6 +21,7 @@ class UsuarioController {
             usuario.username = request.input('username');
             usuario.email = request.input('email')
             usuario.password = request.input('password');
+            usuario.rol = 'Usuario';
             await usuario.save();
 
             return response.status(200).json(await Usuario.query().orderBy('id').fetch());
@@ -35,7 +36,7 @@ class UsuarioController {
         {
             const verificar = await Hash.verify(usuario.password,usuariobd.password)
             if ( verificar){
-                return response.status(200).json({token: jwt.sign({usuariobd},'garnachas@123'),id:usuariobd.id,username:usuariobd.username})
+                return response.status(200).json({token: jwt.sign({usuariobd},'garnachas@123')})
             }
             else{
                 return response.status(403).send({Error: 'Contraseña Incorrecta, Intente de nuevo'})
