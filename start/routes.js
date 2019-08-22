@@ -28,3 +28,7 @@ Route.post('registrar-usuario', 'UsuarioController.registrarUsuario')
 Route.post('registrar-concepto', 'InventarioController.registrarConcepto')
 Route.get('obtener-inventario', 'InventarioController.obtenerInventario')
 Route.get('buscar-inventario', 'InventarioController.buscar')
+
+// Ventas
+Route.get('obtener-ventas','VentaController.obtenerVentas')
+Route.get('buscar-venta','VentaController.buscarVenta')
