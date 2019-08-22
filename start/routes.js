@@ -28,3 +28,15 @@ Route.post('registrar-usuario', 'UsuarioController.registrarUsuario')
 Route.post('registrar-concepto', 'InventarioController.registrarConcepto')
 Route.get('obtener-inventario', 'InventarioController.obtenerInventario')
 Route.get('buscar-inventario', 'InventarioController.buscar')
+
+
+
+
+
+
+
+
+
+
+//Compras
+Route.post('registrar-compra', 'CompraController.registar')
