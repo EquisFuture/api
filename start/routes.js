@@ -22,3 +22,15 @@ Route.get('/', () => {
 
 // Inventario
 Route.post('registrar-concepto', 'InventarioController.registrarConcepto')
+
+
+
+
+
+
+
+
+
+
+//Compras
+Route.post('registrarCompra', 'CompraController.registrar')
