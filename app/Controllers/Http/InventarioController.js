@@ -13,6 +13,19 @@ class InventarioController {
 
         return response.status(200).json(concepto);
     }
+
+    async obtenerInventario({response}){
+        let inventario = await Concepto.query().fetch();
+        return response.status(200).json(inventario);
+    }
+
+    async buscar({request,response}){
+        let inventario = await Concepto .query()
+                                        .where('concepto', 'like', '%'+request.input('concepto')+'%')
+                                        .orWhere('descripcion', 'like', '%'+request.input('concepto')+'%')
+                                        .fetch();
+        return response.status(200).json(inventario);
+    }
 }
 
 module.exports = InventarioController
