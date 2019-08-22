@@ -7,11 +7,12 @@ class InventarioController {
         concepto.concepto = request.input('concepto');
         concepto.descripcion = request.input('descripcion');
         concepto.cantidad = request.input('cantidad');
+        concepto.udm = request.input('udm');
         concepto.precio_lista = request.input('precio_lista');
         concepto.precio_publico = request.input('precio_publico');
         await concepto.save();
 
-        return response.status(200).json(concepto);
+        return response.status(200).json(await Concepto.query().fetch());
     }
 
     async obtenerInventario({response}){
@@ -21,8 +22,8 @@ class InventarioController {
 
     async buscar({request,response}){
         let inventario = await Concepto .query()
-                                        .where('concepto', 'like', '%'+request.input('concepto')+'%')
-                                        .orWhere('descripcion', 'like', '%'+request.input('concepto')+'%')
+                                        .where('concepto', 'ilike', '%'+request.input('concepto')+'%')
+                                        .orWhere('descripcion', 'ilike', '%'+request.input('concepto')+'%')
                                         .fetch();
         return response.status(200).json(inventario);
     }
