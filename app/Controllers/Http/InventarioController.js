@@ -22,8 +22,8 @@ class InventarioController {
 
     async buscar({request,response}){
         let inventario = await Concepto .query()
-                                        .where('concepto', 'like', '%'+request.input('concepto')+'%')
-                                        .orWhere('descripcion', 'like', '%'+request.input('concepto')+'%')
+                                        .where('concepto', 'ilike', '%'+request.input('concepto')+'%')
+                                        .orWhere('descripcion', 'ilike', '%'+request.input('concepto')+'%')
                                         .fetch();
         return response.status(200).json(inventario);
     }
