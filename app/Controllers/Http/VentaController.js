@@ -1,5 +1,6 @@
 'use strict'
 const Venta = use('App/Models/Venta')
+const User = use('App/Models/User')
 class VentaController {
 
     async agregarVenta({request,response}){
@@ -16,6 +17,18 @@ class VentaController {
     
             return response.status(200).json(venta);
         }
+}
+
+async obtenerVentas({response}){
+    //let ventas = await Venta.query().join('Users','ventas.cliente','users.id').fetch();
+    let ventas = await Venta.query().fetch();
+    return response.status(200).json(ventas);
+}
+async buscar({request,response}){
+    let venta = await Concepto .query()
+                                    .where('', 'like', '%'+request.input('concepto')+'%')
+                                    .fetch();
+    return response.status(200).json(inventario);
 }
 }
 
