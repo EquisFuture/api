@@ -46,6 +46,22 @@ class UsuarioController {
             return response.status(404).send({Error: 'Correo no encontrado, Intente de nuevo'})
         }
     }
+
+    async obtenerUsuarios({response}){
+        return response.status(200).json(await Usuario.query().orderBy('id').fetch());
+    }
+
+    async editarUsuario({request, response}){
+        const id = request.input('id');
+        const usuario = await Usuario.find(id);
+
+        if(usuario.user =! request.input('user')){ usuario.user = request.input('user'); }
+        if(usuario.rol =! request.input('rol')){ usuario.rol = request.input('rol'); }
+        
+        usuario.save();
+
+        return response.status(200).json(await Usuario.query().orderBy('id').fetch());
+    }
 }
 
 module.exports = UsuarioController
