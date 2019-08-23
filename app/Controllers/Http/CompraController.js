@@ -48,7 +48,7 @@ class CompraController {
         }
     }
 
-    async barticulo({request,response}){
+    async bcompra({request,response}){
         let art = new articulo()
         try{
 
@@ -56,6 +56,30 @@ class CompraController {
             return response.status(200).send(art)
         }catch(msn){
             return response.status(300).send(msn)
+        }
+    }
+
+    async dcompra({request, response}){
+        let art = new articulo()
+        let comp = new Compra()
+        try{
+            comp = await Compra.find(request.input('folio_compra'))
+            art = await articulo.find({'folio_compra': comp.id})
+            art.forEach(element => {
+               this.darticulo({request,response},element)
+            });
+            await comp.delete()
+            return response.status(200).send({notificacion: 'Registros borrados...'})
+        }catch(msj){
+            return response.status(300).send(msj)
+        }
+    }
+
+    async darticulo({request,response},object){
+        try {
+            await object.delete()
+        } catch (error) {
+            return response.status(304).send(error)
         }
     }
 }
