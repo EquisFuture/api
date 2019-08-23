@@ -1,5 +1,6 @@
 'use strict'
 const Venta = use('App/Models/Venta')
+const User = use('App/Models/User')
 class VentaController {
 
     async agregarVenta({request,response}){
@@ -19,6 +20,7 @@ class VentaController {
 }
 
 async obtenerVentas({response}){
+    //let ventas = await Venta.query().join('Users','ventas.cliente','users.id').fetch();
     let ventas = await Venta.query().fetch();
     return response.status(200).json(ventas);
 }

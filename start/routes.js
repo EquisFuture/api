@@ -34,4 +34,4 @@ Route.get('obtener-ventas','VentaController.obtenerVentas')
 Route.get('buscar-venta','VentaController.buscarVenta')
 
 //Compras
-Route.post('registrar-compra', 'CompraController.registar')
+Route.post('registrar-compra', 'CompraController.registrar')

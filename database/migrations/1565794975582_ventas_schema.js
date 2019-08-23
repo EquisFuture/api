@@ -8,9 +8,10 @@ class VentasSchema extends Schema {
     this.create('ventas', (table) => {
       table.increments()
       table.integer('cliente').notNullable()
-      table.decimal('subtotal',10,8).notNullable()
-      table.decimal('impuestos',10,8).notNullable()
-      table.decimal('total',10,8).notNullable()
+      table.decimal('subtotal',10,2).notNullable()
+      table.decimal('impuestos',10,2).notNullable()
+      table.decimal('total',10,2).notNullable()
+      table.date('fecha').notNullable()
       table.timestamps()
     })
   }
