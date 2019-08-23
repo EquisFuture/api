@@ -75,8 +75,8 @@ module.exports = {
     connection: {
       host: Env.get('DB_HOST', '127.0.0.1'),
       port: Env.get('DB_PORT', '5432'),
-      user: Env.get('DB_USER', 'postgres'),
-      password: Env.get('DB_PASSWORD', '123456'),
+      user: Env.get('DB_USER', ''),
+      password: Env.get('DB_PASSWORD', ''),
       database: Env.get('DB_DATABASE', 'api')
     },
   
@@ -95,7 +95,7 @@ module.exports = {
   */
   mongodb: {
     client: 'mongodb',
-    connectionString: Env.get('MONGO_CONNECTION_STRING', 'mongodb://manuel:Manuel123@127.0.0.1:27017/api'),
+    connectionString: Env.get('MONGO_CONNECTION_STRING', null),
     connection: {
       host: Env.get('MONGO_HOST', '127.0.0.1'),
       port: Env.get('MONGO_PORT', 27017),
