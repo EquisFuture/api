@@ -7,13 +7,17 @@ const Concepto = use('App/Models/Almacen')
 class VentaController {
 
     async registrarDventa({request,response},folio,obj){
-        console.log('detventa3')
-        console.log(folio)
-        console.log(obj)
-        folio = 15;
-        try{
+            let d_venta = new Dventa();
+            console.log(folio)
+        try{/*
             await Dventa.find({ folio_venta: folio })
-                        .updateOne({ $push: { conceptos:  {concepto: obj.concepto, descripcion: obj.descripcion , cantidad: obj.cantidad, total: obj.cantidad * obj.precio }} });
+                        .updateOne({ $push: { conceptos:  {concepto: obj.concepto, descripcion: obj.descripcion , cantidad: obj.cantidad, total: obj.cantidad * obj.precio }} });*/
+            d_venta.folio_venta = folio
+            d_venta.concepto = obj.concepto
+            d_venta.cantidad = obj.cantidad
+            d_venta.descripcion = obj.descripcion
+            d_venta.total = obj.precio * obj.cantidad
+            await d_venta.save()
         }catch(msj){
             return response.status(150).send({error: msj})
         }
@@ -43,21 +47,17 @@ class VentaController {
         let venta = new Venta();
         let subtotal = 0
         let total = 0
-        let det_Venta
         try{
             venta.cliente = request.input('cliente')
             venta.subtotal = request.input('subtotal')
             venta.impuestos = request.input('impuestos')
             venta.total = request.input('total')
             venta.fecha = request.input('fecha')
-            venta = this.gVenta(venta);
-            det_Venta = new Dventa(this.gDventa());
-            console.log("venta")
-            console.log(det_Venta)
+            await venta.save();
             try{
                 let listado = request.input('listado');
                 listado.forEach(e => {
-                    this.registrarDventa({request,response},det_Venta.folio_venta,e)
+                    this.registrarDventa({request,response},venta.id,e)
                     subtotal = e.subtotal * e.cantidad;
                     impuesto = subtotal * .16
                 });
