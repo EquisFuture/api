@@ -12,11 +12,13 @@ class VentaController {
         try{/*
             await Dventa.find({ folio_venta: folio })
                         .updateOne({ $push: { conceptos:  {concepto: obj.concepto, descripcion: obj.descripcion , cantidad: obj.cantidad, total: obj.cantidad * obj.precio }} });*/
+            console.log('entro al try')
             d_venta.folio_venta = folio
             d_venta.concepto = obj.concepto
             d_venta.cantidad = obj.cantidad
             d_venta.descripcion = obj.descripcion
             d_venta.total = obj.precio * obj.cantidad
+            console.log('paso el foreach')
             await d_venta.save()
         }catch(msj){
             return response.status(150).send({error: msj})
@@ -56,10 +58,11 @@ class VentaController {
             await venta.save();
             try{
                 let listado = request.input('listado');
+                
                 listado.forEach(e => {
                     this.registrarDventa({request,response},venta.id,e)
                     subtotal = e.subtotal * e.cantidad;
-                    impuesto = subtotal * .16
+                    e.impuesto = subtotal * .16
                 });
             }
             catch{
@@ -68,6 +71,7 @@ class VentaController {
             total = subtotal + impuesto;
             venta.subtotal = subtotal;
             venta.total = total;
+            console.log('llego aqui')
             await venta.save();
             return response.status(200).send({mensaje: 'registro exitoso'});
         }catch(error){
