@@ -1,6 +1,9 @@
 'use strict'
 const Compra = use('App/Models/Compra')
 const articulo = use('App/Models/DetallesCompra')
+const user = use('App/Models/User')
+const proveedor = use('App/Models/Proveedor')
+var jwt = require('jsonwebtoken')
 
 class CompraController {
     async regarticulo({request,response}, folio, object){
@@ -23,9 +26,14 @@ class CompraController {
         let nueva = new Compra()
         let monto = 0
         let importe = 0
+        let usuario = new user()
+        let token;
         try {
+            token = request.header('auth')
+            
+            let u = jwt.verify(token,'garnachas@123')
             nueva.costo_total = request.input('costo_total')
-            nueva.autoriza = request.input('autoriza')
+            nueva.autoriza = u['usuariobd'].id
             nueva.proveedor = request.input('proveedor')
             await nueva.save()
             try{
@@ -37,7 +45,7 @@ class CompraController {
                     
                 }); 
             }catch{
-                return response.status(300).send({mensaje: 'valio cabeza'})
+                return response.status(300).send({mensaje: 'Error durante registro de articulos'})
             }
             nueva.costo_total = monto
             await nueva.save()
@@ -82,6 +90,36 @@ class CompraController {
             return response.status(304).send(error)
         }
     }
+
+    async compras({request, response}){
+        let c = new Compra()
+        c = await Compra.all()
+   
+       
+        return response.status(200).send(c)
+    }
+
+    async autorizacompra({params,response}){
+        let usuario = await user.find(params.id)
+        return response.status(200).send({usuario: usuario.username})
+    }
+    async proveedorcompra({params,response}){
+        let prov = await proveedor.find(params.id)
+        return response.status(200).send({proveedor: prov.nombre_proveedor})
+
+    }
+   async buscador({params, response}){
+       let proveedores = await proveedor.findBy('nombre_proveedor', params.keyword)
+       let busqueda = []
+       busqueda.push(await Compra.all()) 
+       let arreglo = [];
+       busqueda.forEach(element => {
+           if(element.proveedor == proveedores.id){
+               arreglo.push()
+           }
+       });
+       return response.status(200).send(arreglo)
+   }
 }
 
 module.exports = CompraController
