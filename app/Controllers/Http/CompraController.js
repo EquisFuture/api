@@ -108,7 +108,18 @@ class CompraController {
         return response.status(200).send({proveedor: prov.nombre_proveedor})
 
     }
-   
+   async buscador({params, response}){
+       let proveedores = await proveedor.findBy('nombre_proveedor', params.keyword)
+       let busqueda = []
+       busqueda.push(await Compra.all()) 
+       let arreglo = [];
+       busqueda.forEach(element => {
+           if(element.proveedor == proveedores.id){
+               arreglo.push()
+           }
+       });
+       return response.status(200).send(arreglo)
+   }
 }
 
 module.exports = CompraController

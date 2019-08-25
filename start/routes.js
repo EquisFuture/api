@@ -46,6 +46,7 @@ Route.delete('borrar-compra', 'CompraController.dcompra')
 Route.get('compras', 'CompraController.compras')
 Route.get('buscar-usuario/:id', 'CompraController.autorizacompra')
 Route.get('buscar-proveedor/:id', 'CompraController.proveedorcompra')
+Route.get('buscador-compras/:keyword', 'CompraController.buscador')
 
 
 
