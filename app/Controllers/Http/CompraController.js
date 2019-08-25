@@ -30,9 +30,8 @@ class CompraController {
         let token;
         try {
             token = request.header('auth')
-            console.log(token)
+            
             let u = jwt.verify(token,'garnachas@123')
-            // console.log(u['usuariobd'].id)
             nueva.costo_total = request.input('costo_total')
             nueva.autoriza = u['usuariobd'].id
             nueva.proveedor = request.input('proveedor')
@@ -46,7 +45,7 @@ class CompraController {
                     
                 }); 
             }catch{
-                return response.status(300).send({mensaje: 'valio cabeza'})
+                return response.status(300).send({mensaje: 'Error durante registro de articulos'})
             }
             nueva.costo_total = monto
             await nueva.save()
