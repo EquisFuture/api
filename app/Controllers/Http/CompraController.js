@@ -51,7 +51,7 @@ class CompraController {
             nueva.costo_total = monto
             await nueva.save()
             return response.status(200).send({mensaje: 'registro exitoso'})
-        } catch (error) {
+        }  catch (error) {
             return response.status(150).send({mensaje: 'registro fallido', error: error})
             
         }
