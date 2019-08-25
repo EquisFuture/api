@@ -7,8 +7,10 @@ const Concepto = use('App/Models/Almacen')
 class VentaController {
 
     async registrarDventa({request,response},folio,obj){
+        console.log('detventa3')
         console.log(folio)
         console.log(obj)
+        folio = 15;
         try{
             await Dventa.find({ folio_venta: folio })
                         .updateOne({ $push: { conceptos:  {concepto: obj.concepto, descripcion: obj.descripcion , cantidad: obj.cantidad, total: obj.cantidad * obj.precio }} });
@@ -21,40 +23,41 @@ class VentaController {
         let vent = new Venta();
         vent = v
             await vent.save()
+            console.log('vent2')
+            console.log(vent)
+            return vent;
         
     }
     async gDventa(){
         let det_Venta = new Dventa();
             det_Venta = await Venta.query().pickInverse();
-            console.log('detventa')
+            console.log('detventa1')
             console.log(det_Venta);
-            await det_Venta.save()
-        return det_Venta;
+            let v = new Dventa(det_Venta);
+            await v.save()
+            console.log('pasamos')
+        return v;
     }
 
     async registrarVenta({request,response}){
-        console.log("entramos")
         let venta = new Venta();
         let subtotal = 0
         let total = 0
+        let det_Venta
         try{
-            console.log("entro al try")
             venta.cliente = request.input('cliente')
             venta.subtotal = request.input('subtotal')
             venta.impuestos = request.input('impuestos')
             venta.total = request.input('total')
             venta.fecha = request.input('fecha')
-            this.gVenta(venta);
-          
-            
-            let det_Venta = new Dventa();
-            det_Venta = this.gDventa()
-            console.log(det_Venta.folio_venta)
-            console.log("pasamos el save")
+            venta = this.gVenta(venta);
+            det_Venta = new Dventa(this.gDventa());
+            console.log("venta")
+            console.log(det_Venta)
             try{
                 let listado = request.input('listado');
                 listado.forEach(e => {
-                    this.registrarDventa({request,response},venta.id,e)
+                    this.registrarDventa({request,response},det_Venta.folio_venta,e)
                     subtotal = e.subtotal * e.cantidad;
                     impuesto = subtotal * .16
                 });
@@ -84,11 +87,11 @@ async obtenerVentas({response}){
    
     return response.status(200).json(ventas);
 }
-async buscar({request,response}){
-    let venta = await Concepto .query()
-                                    .where('', 'like', '%'+request.input('concepto')+'%')
+async buscarVenta({request,response}){
+    let venta = await Venta .query()
+                                    .where('fecha', 'ilike', '%'+request.input('fecha')+'%')
                                     .fetch();
-    return response.status(200).json(inventario);
+    return response.status(200).json(venta);
 }
 }
 
