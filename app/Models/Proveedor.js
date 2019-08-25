@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class Proveedor extends Model {
+    static get table () {
+        return 'proveedores'
+      }
 }
 
 module.exports = Proveedor

@@ -43,3 +43,13 @@ Route.post('registrar-compra', 'CompraController.registrar')
 // Route.post('registrar-articulo', 'CompraController.regarticulo')
 Route.post('buscar-compra', 'CompraController.bcompra')
 Route.delete('borrar-compra', 'CompraController.dcompra')
+Route.get('compras', 'CompraController.compras')
+Route.get('buscar-usuario/:id', 'CompraController.autorizacompra')
+Route.get('buscar-proveedor/:id', 'CompraController.proveedorcompra')
+
+
+
+
+//proveedores
+Route.post('registrar-proveedor','ProveedorController.registrarProveedor')
+Route.get('proveedores', 'ProveedorController.getProveedores')
