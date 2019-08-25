@@ -25,12 +25,10 @@ class DetallesVenta extends BaseModel {
   static get schema () {
     return {
       folio_venta: Number,
-          conceptos: [{
             concepto: Number,
             cantidad: Number,
             descripcion: String,
             total: Number
-          }]
     }
   }
 }
