@@ -4,6 +4,7 @@ const articulo = use('App/Models/DetallesCompra')
 const user = use('App/Models/User')
 const proveedor = use('App/Models/Proveedor')
 var jwt = require('jsonwebtoken')
+const inventario = use('App/Models/Almacen')
 
 class CompraController {
     async regarticulo({request,response}, folio, object){
@@ -16,6 +17,7 @@ class CompraController {
             art.cantidad = object.cantidad
             art.udm = object.udm
             art.precio = object.precio
+            this.actualizaInventario(art)
             await art.save()
             
         }catch(msj){
@@ -53,6 +55,30 @@ class CompraController {
         }  catch (error) {
             return response.status(150).send({mensaje: 'registro fallido', error: error})
             
+        }
+    }
+    async actualizaInventario(object){
+        try {
+            
+            let art_inventario = new inventario()
+            let existente_c = await inventario.findBy('concepto',object.concepto)
+            let existente_d = await inventario.findBy('descripcion', object.descripcion)
+    
+            if(existente_c !== null && existente_d !== null){
+                if(existente_c.concepto == existente_d.concepto){
+                    console.log('actualizando articulo...')
+                    art_inventario = existente_c;
+                    art_inventario.cantidad = art_inventario.cantidad + object.cantidad
+                    art_inventario.precio_lista = object.precio
+                    art_inventario.precio_publico = object.precio * 1.3
+                    await art_inventario.save()
+                    console.log('articulo actualizado')
+                }else{
+                    console.log('es diferente')
+                }
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -108,6 +134,9 @@ class CompraController {
         return response.status(200).send({proveedor: prov.nombre_proveedor})
 
     }
+
+    
+
    async buscador({params, response}){
        let proveedores = await proveedor.findBy('nombre_proveedor', params.keyword)
        let busqueda = []
