@@ -64,6 +64,15 @@ class UsuarioController {
 
         return response.status(200).json(await Usuario.query().orderBy('id').fetch());
     }
+
+    async buscarUsuario({request, response}){
+        let usuarios = await Usuario    .query()
+                                        .where('username', 'ilike', '%'+request.input('username')+'%')
+                                        .orWhere('email', 'ilike', '%'+request.input('username')+'%')
+                                        .orderBy('id')
+                                        .fetch();
+        return response.status(200).json(usuarios);
+    }
 }
 
 module.exports = UsuarioController

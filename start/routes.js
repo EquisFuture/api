@@ -23,6 +23,7 @@ Route.get('/', () => {
 // Login
 Route.post('login', 'UsuarioController.login')
 Route.post('registrar-usuario', 'UsuarioController.registrarUsuario')
+Route.get('buscar-usuario', 'UsuarioController.buscarUsuario')
 
 // Usuarios
 Route.get('obtener-usuarios', 'UsuarioController.obtenerUsuarios')
