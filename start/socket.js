@@ -15,7 +15,7 @@
 
 const Ws = use('Ws')
 
+Ws.channel('usuarios','UsuarioController'); 
 Ws.channel('inventario','AlmacenController'); 
 Ws.channel('ventas','VentaController'); 
 Ws.channel('compras:*','CompraController');
-

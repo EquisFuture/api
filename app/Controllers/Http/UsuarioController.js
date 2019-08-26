@@ -53,10 +53,12 @@ class UsuarioController {
 
     async editarUsuario({request, response}){
         const id = request.input('id');
+
         const usuario = await Usuario.find(id);
 
-        if(usuario.user =! request.input('user')){ usuario.user = request.input('user'); }
-        if(usuario.rol =! request.input('rol')){ usuario.rol = request.input('rol'); }
+        usuario.username = request.input('username');
+        usuario.email = request.input('email');
+        usuario.rol = request.input('rol');
         
         await usuario.save();
 
