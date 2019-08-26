@@ -6,12 +6,6 @@ const BaseModel = use('MongooseModel')
  * @class DetallesVenta
  */
 class DetallesVenta extends BaseModel {
-  /**
-   * Exclude created_at and updated_at from the model
-   */
-  static get timestamps () {
-    return false
-  }
   static boot ({ schema }) {
     // Hooks:
     // this.addHook('preSave', () => {})
@@ -25,10 +19,11 @@ class DetallesVenta extends BaseModel {
   static get schema () {
     return {
       folio_venta: Number,
-            concepto: Number,
+            concepto: String,
             cantidad: Number,
             descripcion: String,
             total: Number
+
     }
   }
 }

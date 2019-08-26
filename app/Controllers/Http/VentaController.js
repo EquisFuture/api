@@ -8,7 +8,7 @@ class VentaController {
 
     async registrarDventa({request,response},folio,obj){
             let d_venta = new Dventa();
-            console.log(folio)
+            console.log(obj)
         try{/*
             await Dventa.find({ folio_venta: folio })
                         .updateOne({ $push: { conceptos:  {concepto: obj.concepto, descripcion: obj.descripcion , cantidad: obj.cantidad, total: obj.cantidad * obj.precio }} });*/
@@ -49,6 +49,7 @@ class VentaController {
         let venta = new Venta();
         let subtotal = 0
         let total = 0
+        let impuesto = 0
         try{
             venta.cliente = request.input('cliente')
             venta.subtotal = request.input('subtotal')
@@ -62,7 +63,9 @@ class VentaController {
                 listado.forEach(e => {
                     this.registrarDventa({request,response},venta.id,e)
                     subtotal = e.subtotal * e.cantidad;
-                    e.impuesto = subtotal * .16
+                    impuesto = subtotal * .16
+                    console.log('subtotal')
+                    console.log(subtotal)
                 });
             }
             catch{
@@ -93,7 +96,7 @@ async obtenerVentas({response}){
 }
 async buscarVenta({request,response}){
     let venta = await Venta .query()
-                                    .where('fecha', 'ilike', '%'+request.input('fecha')+'%')
+                                    .where('fecha', 'like', '%'+request.input('fecha')+'%')
                                     .fetch();
     return response.status(200).json(venta);
 }
