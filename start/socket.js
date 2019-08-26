@@ -17,3 +17,6 @@ const Ws = use('Ws')
 
 Ws.channel('inventario','AlmacenController'); 
 Ws.channel('ventas','VentaController'); 
+Ws.channel('compras:*','CompraController');
+
+Ws.channel('android','AndroidController');
