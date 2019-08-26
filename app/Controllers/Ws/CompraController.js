@@ -11,12 +11,13 @@ class CompraController {
     this.socket.broadcastToAll('actualizarTabla', compras)
   }
   onnuevoProveedor(){
-    this.socket.broadcastToAll('actualizarProveedores');
+    this.socket.broadcastToAll('actualizarProveedores')
     console.log('nuevo registro de proveedor')
   }
   onnuevaCompra(){
-    this.socket.broadcastToAll('actualizarCompras');
+    this.socket.broadcastToAll('actualizarCompras')
     console.log('nueva compra registrada')
+  
   }
 }
 

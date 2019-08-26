@@ -4,6 +4,7 @@ const articulo = use('App/Models/DetallesCompra')
 const user = use('App/Models/User')
 const proveedor = use('App/Models/Proveedor')
 var jwt = require('jsonwebtoken')
+const inventario = use('App/Models/Almacen')
 
 class CompraController {
     async regarticulo({request,response}, folio, object){
@@ -16,6 +17,7 @@ class CompraController {
             art.cantidad = object.cantidad
             art.udm = object.udm
             art.precio = object.precio
+            this.actualizaInventario(art)
             await art.save()
             
         }catch(msj){
@@ -53,6 +55,50 @@ class CompraController {
         }  catch (error) {
             return response.status(150).send({mensaje: 'registro fallido', error: error})
             
+        }
+    }
+    async actualizaInventario(object){
+        try {
+            console.log('actualizando inventario...')
+            let art_inventario = new inventario()
+            let existente_c = await inventario.query()
+            .where('concepto', 'ilike', ''+object.concepto+'')
+            .andWhere('descripcion', 'ilike', '%'+object.descripcion+'%')
+            .orderBy('id')
+            .fetch();
+            console.log("resultado consulta: " + JSON.parse(JSON.stringify(existente_c)))
+            try {
+                
+                console.log(JSON.parse(JSON.stringify(existente_c))[0].id)
+            } catch (error) {
+                console.log('no results')
+            }
+
+            if(JSON.stringify(existente_c).length > 3){
+               
+                console.log('actualizando articulo...')
+                art_inventario = await inventario.find(JSON.parse(JSON.stringify(existente_c))[0].id)
+                art_inventario.cantidad = art_inventario.cantidad + object.cantidad
+                art_inventario.precio_lista = object.precio
+                art_inventario.precio_publico = object.precio * 1.3
+                await art_inventario.save()
+                console.log('articulo actualizado')
+                
+            }else{
+                console.log('registrando nuevo articulo...')
+                art_inventario.concepto = object.concepto
+                art_inventario.descripcion = object.descripcion
+                art_inventario.cantidad = object.cantidad
+                art_inventario.udm = object.udm
+                art_inventario.precio_lista = object.precio
+                art_inventario.precio_publico = object.precio * 1.3
+                await art_inventario.save()
+                console.log('articulo nuevo registrado')
+
+            }
+        } catch (error) {
+            console.log('Error: ')
+            console.log(error)
         }
     }
 
@@ -108,6 +154,9 @@ class CompraController {
         return response.status(200).send({proveedor: prov.nombre_proveedor})
 
     }
+
+    
+
    async buscador({params, response}){
        let proveedores = await proveedor.findBy('nombre_proveedor', params.keyword)
        let busqueda = []
