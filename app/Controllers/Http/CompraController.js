@@ -59,25 +59,45 @@ class CompraController {
     }
     async actualizaInventario(object){
         try {
-            
+            console.log('actualizando inventario...')
             let art_inventario = new inventario()
-            let existente_c = await inventario.findBy('concepto',object.concepto)
-            let existente_d = await inventario.findBy('descripcion', object.descripcion)
-    
-            if(existente_c !== null && existente_d !== null){
-                if(existente_c.concepto == existente_d.concepto){
-                    console.log('actualizando articulo...')
-                    art_inventario = existente_c;
-                    art_inventario.cantidad = art_inventario.cantidad + object.cantidad
-                    art_inventario.precio_lista = object.precio
-                    art_inventario.precio_publico = object.precio * 1.3
-                    await art_inventario.save()
-                    console.log('articulo actualizado')
-                }else{
-                    console.log('es diferente')
-                }
+            let existente_c = await inventario.query()
+            .where('concepto', 'ilike', ''+object.concepto+'')
+            .andWhere('descripcion', 'ilike', '%'+object.descripcion+'%')
+            .orderBy('id')
+            .fetch();
+            console.log("resultado consulta: " + JSON.parse(JSON.stringify(existente_c)))
+            try {
+                
+                console.log(JSON.parse(JSON.stringify(existente_c))[0].id)
+            } catch (error) {
+                console.log('no results')
+            }
+
+            if(JSON.stringify(existente_c).length > 3){
+               
+                console.log('actualizando articulo...')
+                art_inventario = await inventario.find(JSON.parse(JSON.stringify(existente_c))[0].id)
+                art_inventario.cantidad = art_inventario.cantidad + object.cantidad
+                art_inventario.precio_lista = object.precio
+                art_inventario.precio_publico = object.precio * 1.3
+                await art_inventario.save()
+                console.log('articulo actualizado')
+                
+            }else{
+                console.log('registrando nuevo articulo...')
+                art_inventario.concepto = object.concepto
+                art_inventario.descripcion = object.descripcion
+                art_inventario.cantidad = object.cantidad
+                art_inventario.udm = object.udm
+                art_inventario.precio_lista = object.precio
+                art_inventario.precio_publico = object.precio * 1.3
+                await art_inventario.save()
+                console.log('articulo nuevo registrado')
+
             }
         } catch (error) {
+            console.log('Error: ')
             console.log(error)
         }
     }
