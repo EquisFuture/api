@@ -1,5 +1,5 @@
 'use strict'
-const cliente = use('App/Models/Cliente')
+const Cliente = use('App/Models/Cliente')
 class ClienteController {
     async registrarCliente({request,response}){
         try {
@@ -20,7 +20,7 @@ class ClienteController {
     }
 
     async getClientes({response}){
-        let clientes = await clientes.all()
+        let clientes = await Cliente.all()
         return response.status(200).send(clientes)
     }
 }

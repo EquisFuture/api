@@ -50,7 +50,11 @@ class VentaController {
         let subtotal = 0
         let total = 0
         let impuesto = 0
+        let token;
         try{
+            token = request.header('auth')
+            
+            let u = jwt.verify(token,'garnachas@123')
             venta.cliente = request.input('cliente')
             venta.subtotal = request.input('subtotal')
             venta.impuestos = request.input('impuestos')
