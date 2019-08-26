@@ -5,6 +5,8 @@ const user = use('App/Models/User')
 const proveedor = use('App/Models/Proveedor')
 var jwt = require('jsonwebtoken')
 const inventario = use('App/Models/Almacen')
+const database = use('Database')
+
 
 class CompraController {
     // registra articulos en mongoDB
@@ -197,7 +199,10 @@ class CompraController {
        }
    }
    async filtrar({params, response}){
-       
+       console.log('fecha inicio: ' + params.inicio)
+       console.log('fecha fin: ' + params.fin)
+       let resultado = await database.table('compras').whereBetween('updated_at', [params.inicio,params.fin])
+       return response.status(200).send(resultado)
    }
 }
 
