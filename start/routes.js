@@ -50,6 +50,7 @@ Route.get('buscador-compras/:keyword', 'CompraController.buscador')
 
 //Clientes
 Route.post('registrar-cliente','ClienteController.registrarCliente')
+Route.get('obtener-clientes','ClienteController.getClientes')
 
 //proveedores
 Route.post('registrar-proveedor','ProveedorController.registrarProveedor')
