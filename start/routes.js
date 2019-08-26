@@ -23,10 +23,13 @@ Route.get('/', () => {
 // Login
 Route.post('login', 'UsuarioController.login')
 Route.post('registrar-usuario', 'UsuarioController.registrarUsuario')
+Route.get('login2/:correo', 'UsuarioController.loginAndroid') 
+Route.post('login3', 'UsuarioController.loginAndroid2')
 
 // Usuarios
 Route.get('obtener-usuarios', 'UsuarioController.obtenerUsuarios')
 Route.post('editar-usuario', 'UsuarioController.editarUsuario')
+
 
 // Inventario
 Route.post('registrar-concepto', 'InventarioController.registrarConcepto')
