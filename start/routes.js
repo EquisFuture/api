@@ -48,8 +48,8 @@ Route.get('buscar-usuario/:id', 'CompraController.autorizacompra')
 Route.get('buscar-proveedor/:id', 'CompraController.proveedorcompra')
 Route.get('buscador-compras/:keyword', 'CompraController.buscador')
 
-
-
+//Clientes
+Route.post('registrar-cliente','ClienteController.registrarCliente')
 
 //proveedores
 Route.post('registrar-proveedor','ProveedorController.registrarProveedor')
