@@ -46,6 +46,7 @@ class VentaController {
     }
 
     async registrarVenta({request,response}){
+        console.log('entro al metodo registrarventa')
         let venta = new Venta();
         let subtotal = 0
         let total = 0
@@ -53,7 +54,6 @@ class VentaController {
         let token;
         try{
             token = request.header('auth')
-            
             let u = jwt.verify(token,'garnachas@123')
             venta.cliente = request.input('cliente')
             venta.subtotal = request.input('subtotal')
@@ -88,8 +88,7 @@ class VentaController {
 
 async obtenerVentas({response}){
     //let ventas = await Venta.query().join('Users','ventas.cliente','users.id').fetch();
-    
-    let ventas = await Venta.query().fetch();
+    let ventas = await Venta.all();
     /*let nombres;
     for(let v in ventas.cliente){
        nombres = await Cliente.query().where('id',1).fetch();

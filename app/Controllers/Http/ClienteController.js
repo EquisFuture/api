@@ -2,14 +2,15 @@
 const Cliente = use('App/Models/Cliente')
 class ClienteController {
     async registrarCliente({request,response}){
+        console.log('entro al registro')
         try {
             
-            let input = request.all()
-            let cli = new cliente()
-            cli.nombre_cliente = input.nombre_proveedor
-            cli.direccion = input.direccion
-            cli.telefono = input.telefono
-            cli.correo = input.correo
+            // let input = request.all()
+            let cli = new Cliente()
+            cli.nombre_cliente = request.input('nombre_cliente')
+            cli.direccion = request.input('direccion')
+            cli.telefono = request.input('telefono')
+            cli.correo = request.input('correo')
             await cli.save()
             return response.status(200).send({mensaje: 'Cliente guardado'})
         } catch (error) {
