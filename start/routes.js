@@ -25,6 +25,7 @@ Route.post('login', 'UsuarioController.login')
 Route.post('registrar-usuario', 'UsuarioController.registrarUsuario')
 Route.get('login2/:correo', 'UsuarioController.loginAndroid') 
 Route.post('login3', 'UsuarioController.loginAndroid2')
+Route.get('buscar-usuario', 'UsuarioController.buscarUsuario')
 
 // Usuarios
 Route.get('obtener-usuarios', 'UsuarioController.obtenerUsuarios')
