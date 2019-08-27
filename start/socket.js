@@ -12,6 +12,7 @@
 | For middleware, do check `wsKernel.js` file.
 |
 */
+const compra = use('App/Models/Compra')
 
 const Ws = use('Ws')
 
@@ -19,4 +20,17 @@ Ws.channel('inventario','AlmacenController');
 Ws.channel('ventas','VentaController'); 
 Ws.channel('compras:*','CompraController');
 
-Ws.channel('android','AndroidController');
+Ws.channel('android:mensaje',({socket}) =>{
+    console.log(socket.id)
+    socket.on('message',(data) =>{
+        console.log(data)
+        let com = new compra()
+        com.costo_total = 5000
+        console.log(com)
+        socket.broadcastToAll('message',{respuesta: "smn"})
+        
+    })
+    socket.on('error', () => {
+        console.log('valio verga')
+    })
+});

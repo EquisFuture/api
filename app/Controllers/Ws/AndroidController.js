@@ -7,6 +7,9 @@ class AndroidController {
     console.log('Conexion android')
   }
  
+    onMensaje(mensaje){
+      console.log(mensaje)
+    }
 }
 
 module.exports = AndroidController
