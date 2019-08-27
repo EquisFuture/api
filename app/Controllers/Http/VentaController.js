@@ -24,27 +24,6 @@ class VentaController {
             return response.status(150).send({error: msj})
         }
     }
-
-    async gVenta(v){
-        let vent = new Venta();
-        vent = v
-            await vent.save()
-            console.log('vent2')
-            console.log(vent)
-            return vent;
-        
-    }
-    async gDventa(){
-        let det_Venta = new Dventa();
-            det_Venta = await Venta.query().pickInverse();
-            console.log('detventa1')
-            console.log(det_Venta);
-            let v = new Dventa(det_Venta);
-            await v.save()
-            console.log('pasamos')
-        return v;
-    }
-
     async registrarVenta({request,response}){
         console.log('entro al metodo registrarventa')
         let venta = new Venta();
@@ -53,37 +32,72 @@ class VentaController {
         let impuesto = 0
         let token;
         try{
-            token = request.header('auth')
-            let u = jwt.verify(token,'garnachas@123')
+            console.log('entro al try')
+            /*token = request.header('auth')
+            
+            let u = jwt.verify(token,'garnachas@123')*/
             venta.cliente = request.input('cliente')
-            venta.subtotal = request.input('subtotal')
-            venta.impuestos = request.input('impuestos')
-            venta.total = request.input('total')
-            venta.fecha = request.input('fecha')
+            venta.subtotal = 0
+            venta.impuestos = 0
+            venta.total = 0
+            
+            venta.fecha = "190827"
+           
             await venta.save();
             try{
+
                 let listado = request.input('listado');
                 
                 listado.forEach(e => {
+                    console.log('entro al foreach')
                     this.registrarDventa({request,response},venta.id,e)
-                    subtotal = e.subtotal * e.cantidad;
-                    impuesto = subtotal * .16
-                    console.log('subtotal')
-                    console.log(subtotal)
+                    
+                    console.log(e.precio * e.cantidad)
+                    subtotal = (e.precio * e.cantidad)
+                    impuesto = (subtotal * .16)
+                    total = total + (subtotal + impuesto);
                 });
             }
             catch{
                 return response.status(300).send({mensaje: 'fallo listado'})
             }
-            total = subtotal + impuesto;
-            venta.subtotal = subtotal;
+            /*console.log('total')
+            console.log(total)
+            venta.subtotal = total - (total * .16);
+            venta.impuesto = 16;
             venta.total = total;
             console.log('llego aqui')
-            await venta.save();
+            console.log(venta)
+            await venta.save()*/
+            this.gVenta(total,venta.fecha,venta.id)
+            console.log('paso el save')
             return response.status(200).send({mensaje: 'registro exitoso'});
         }catch(error){
             return response.status(150).send({mensaje: 'registro fallido', error: error})
         }
+    }
+    async gVenta(total,fecha,id){
+        try{
+            let vent = await Venta.query().pickInverse()
+        let subtotal = total - (total * .16);
+        let impuesto = 16
+        console.log('total')
+        console.log(total)
+             vent.id = id
+            vent.subtotal = subtotal
+            vent.impuesto = impuesto
+            vent.total = total
+            vent.fecha = fecha
+            console.log('vent')
+            console.log(vent)
+            await vent.save()
+        }
+        catch{
+            return 'fallo'
+        }
+        
+            
+        
     }
 
 async obtenerVentas({response}){
@@ -102,6 +116,18 @@ async buscarVenta({request,response}){
                                     .where('fecha', 'like', '%'+request.input('fecha')+'%')
                                     .fetch();
     return response.status(200).json(venta);
+}
+
+
+async gDventa(){
+    let det_Venta = new Dventa();
+        det_Venta = await Venta.query().pickInverse();
+        console.log('detventa1')
+        console.log(det_Venta);
+        let v = new Dventa(det_Venta);
+        await v.save()
+        console.log('pasamos')
+    return v;
 }
 }
 
