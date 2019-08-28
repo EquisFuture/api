@@ -25,11 +25,8 @@ Ws.channel('android:mensaje',({socket}) =>{
     console.log(socket.id)
     socket.on('message',(data) =>{
         console.log(data)
-        let com = new compra()
-        com.costo_total = 5000
-        console.log(com)
-        socket.broadcastToAll('message',{respuesta: "smn"})
-        
+       
+        socket.broadcastToAll('Message',{respuesta: "smn"});
     })
     socket.on('error', () => {
         console.log('valio verga')

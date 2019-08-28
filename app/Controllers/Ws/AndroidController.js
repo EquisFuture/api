@@ -9,6 +9,7 @@ class AndroidController {
  
     onMensaje(mensaje){
       console.log(mensaje)
+      this.socket.broadcastToAll("message","oscar")      
     }
 }
 
