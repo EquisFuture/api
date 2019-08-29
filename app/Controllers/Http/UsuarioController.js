@@ -36,7 +36,7 @@ class UsuarioController {
         {
             const verificar = await Hash.verify(usuario.password,usuariobd.password)
             if ( verificar){
-                return response.status(200).json({token: jwt.sign({usuariobd},'garnachas@123'), usuario: usuariobd.username})
+                return response.status(200).json({token: jwt.sign({usuariobd},'garnachas@123'), usuario: usuariobd.username, rol: usuariobd.rol});
             }
             else{
                 return response.status(403).send({Error: 'Contraseña Incorrecta, Intente de nuevo'})
