@@ -23,11 +23,14 @@ Route.get('/', () => {
 // Login
 Route.post('login', 'UsuarioController.login')
 Route.post('registrar-usuario', 'UsuarioController.registrarUsuario')
+Route.get('login2/:correo', 'UsuarioController.loginAndroid') 
+Route.post('login3', 'UsuarioController.loginAndroid2')
 Route.get('buscar-usuario', 'UsuarioController.buscarUsuario')
 
 // Usuarios
 Route.get('obtener-usuarios', 'UsuarioController.obtenerUsuarios')
 Route.post('editar-usuario', 'UsuarioController.editarUsuario')
+
 
 // Inventario
 Route.post('registrar-concepto', 'InventarioController.registrarConcepto')
@@ -37,8 +40,9 @@ Route.get('buscar-inventario', 'InventarioController.buscar')
 
 // Ventas
 Route.get('obtener-ventas','VentaController.obtenerVentas')
-Route.get('buscar-venta','VentaController.buscarVenta')
+//Route.get('buscar-venta','VentaController.buscarVenta')
 Route.post('registrar-venta','VentaController.registrarVenta')
+Route.get('buscar-venta/:folio','VentaController.bventa')
 //Compras
 Route.post('registrar-compra', 'CompraController.registrar')
 // Route.post('registrar-articulo', 'CompraController.regarticulo')

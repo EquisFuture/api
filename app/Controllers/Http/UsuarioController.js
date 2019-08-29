@@ -47,6 +47,78 @@ class UsuarioController {
         }
     }
 
+    async loginAndroid ({request,response, params}){
+        console.log('Peticion')
+        let usuario = new Usuario();
+        usuario = request.all();
+        let usuariobd =  await Usuario.findBy('email', params.correo)  
+        let arreglo = new Array();
+
+        if(usuariobd !== null)
+        {
+            // arreglo[0]=usuariobd.email
+            // arreglo[1]=usuariobd.password
+            arreglo.push(usuariobd.email)
+            arreglo.push(usuariobd.password)
+            console.log(arreglo)
+            return response.status(200).send(arreglo)
+        
+        //    return response.status(200).json(JSON.stringify({email: usuariobd.email, password: usuariobd.password}))
+        //     const verificar = await Hash.verify(usuario.password,usuariobd.password)
+        //     if ( verificar){
+        //         return response.status(200).json({token: jwt.sign({usuariobd},'garnachas@123')})
+        //     }
+        //     else{
+        //         return response.status(403).send({Error: 'Contraseña Incorrecta, Intente de nuevo'})
+        //     } 
+        // }
+        // else{
+        //     return response.status(404).send({Error: 'Correo no encontrado, Intente de nuevo'})
+        // }
+        }else{
+            console.log('error compa')
+            return response.status(150).send({mensaje: 'error'})
+        }
+    } 
+
+    async loginAndroid2 ({request,response, params}){
+        return response.send('true');
+     /** 
+        console.log('Peticion')
+        let usuario = new Usuario();
+        usuario = request.all();
+        let usuariobd =  await Usuario.findBy('email', params.correo)  
+        let arreglo = new Array();
+
+        if(usuariobd !== null)
+        {
+            // arreglo[0]=usuariobd.email
+            // arreglo[1]=usuariobd.password
+            arreglo.push(usuariobd.email)
+            arreglo.push(usuariobd.password)
+            console.log(arreglo)
+            return response.status(200).send(arreglo)
+        
+        //    return response.status(200).json(JSON.stringify({email: usuariobd.email, password: usuariobd.password}))
+        //     const verificar = await Hash.verify(usuario.password,usuariobd.password)
+        //     if ( verificar){
+        //         return response.status(200).json({token: jwt.sign({usuariobd},'garnachas@123')})
+        //     }
+        //     else{
+        //         return response.status(403).send({Error: 'Contraseña Incorrecta, Intente de nuevo'})
+        //     } 
+        // }
+        // else{
+        //     return response.status(404).send({Error: 'Correo no encontrado, Intente de nuevo'})
+        // }
+        }else{
+            console.log('error compa')
+            return response.status(150).send({mensaje: 'error'})
+        } 
+        */
+    }
+
+
     async obtenerUsuarios({response}){
         return response.status(200).json(await Usuario.query().orderBy('id').fetch());
     }

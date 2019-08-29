@@ -14,10 +14,14 @@ onnuevoProveedor(){
   this.socket.broadcastToAll('actualizarProveedores')
   console.log('nuevo registro de cliente')
 }
-onnuevaCompra(){
-  this.socket.broadcastToAll('actualizarCompras')
+onnuevaCompra(ventas){
+  this.socket.broadcastToAll('actualizar',ventas)
   console.log('nueva compra registrada')
 
+}
+
+onMessage(message){
+  this.socket.broadcastToAll('Message',message)
 }
 
  }
