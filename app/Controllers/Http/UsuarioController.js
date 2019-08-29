@@ -81,9 +81,7 @@ class UsuarioController {
         }
     } 
 
-    async loginAndroid2 ({request,response, params}){ 
-
-        console.log('Entre'); 
+    async loginAndroid2 ({request,response, params}){
         return response.send('true');
      /** 
         console.log('Peticion')

@@ -20,5 +20,9 @@ onnuevaCompra(ventas){
 
 }
 
+onMessage(message){
+  this.socket.broadcastToAll('Message',message)
+}
+
  }
 module.exports = VentaController

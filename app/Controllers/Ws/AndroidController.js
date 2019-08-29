@@ -1,4 +1,5 @@
 'use strict'
+const Venta = use('App/Models/Venta');
 
 class AndroidController {
   constructor ({ socket, request }) {
@@ -7,10 +8,11 @@ class AndroidController {
     console.log('Conexion android')
   }
  
-    onMensaje(mensaje){
-      console.log(mensaje)
-      this.socket.broadcastToAll("message","oscar")      
-    }
+  async onMessage(){
+    console.log('android pidio datos');
+    let ventas = await Venta.query().select('id','fecha','total').fetch();
+    this.socket.broadcastToAll("message", ventas);      
+  }
 }
 
 module.exports = AndroidController

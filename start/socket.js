@@ -21,14 +21,4 @@ Ws.channel('inventario','AlmacenController');
 Ws.channel('ventas:*','VentaController'); 
 Ws.channel('compras:*','CompraController');
 
-Ws.channel('android:mensaje',({socket}) =>{
-    console.log(socket.id)
-    socket.on('message',(data) =>{
-        console.log(data)
-       
-        socket.broadcastToAll('Message',{respuesta: "smn"});
-    })
-    socket.on('error', () => {
-        console.log('valio verga')
-    })
-});
+Ws.channel('android','AndroidController');
