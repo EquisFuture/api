@@ -28,7 +28,7 @@
     "@adonisjs/websocket": "^1.0.11",
     "adonis-mongoose-model": "^3.0.1",
     "mongodb": "^3.3.0",
-    "pg": "^7.12.1"
+    "pg": "^8.11.1"
   },
   "devDependencies": {},
   "autoload": {
